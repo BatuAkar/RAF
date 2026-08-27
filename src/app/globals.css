@@ -1,0 +1,86 @@
+/* Google Fonts Import (Crafty Girls, KoHo ve Kosugi Maru eklendi) */
+@import url('https://fonts.googleapis.com/css2?family=Crafty+Girls&family=Bebas+Neue&family=Antonio:wght@300;400;600;700&family=Caveat:wght@400;700&family=Outfit:wght@300;400;600;800&family=Homemade+Apple&family=Reenie+Beanie&family=Sacramento&family=KoHo:wght@300;400;500;600;700&family=Kosugi+Maru&display=swap');
+
+@import "tailwindcss";
+
+:root {
+  --background: #fbf8f7; /* Figma'daki tatlı kırık beyaz/bej arka plan */
+  --foreground: #151a2d; /* Koyu lacivert/füme başlık rengi */
+  --accent-pink: #db8b9f; /* İkonlar ve el yazısı için pastel pembe */
+  --accent-blue: #1a2542; /* Orijinal logodaki koyu lacivert rengi */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-accent-pink: var(--accent-pink);
+  --color-accent-blue: var(--accent-blue);
+  
+  --font-sans: 'Outfit', var(--font-geist-sans);
+  --font-handwritten: 'Homemade Apple', cursive;
+  --font-logo: 'Antonio', 'Bebas Neue', sans-serif;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: 'Outfit', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Logosal dikey font sınıfları */
+.font-logo {
+  font-family: 'Antonio', 'Bebas Neue', sans-serif;
+}
+
+/* El yazısı sınıfları */
+.font-handwritten {
+  font-family: 'Homemade Apple', cursive;
+}
+
+.font-caveat {
+  font-family: 'Caveat', cursive;
+}
+
+.font-crafty {
+  font-family: 'Crafty Girls', cursive;
+}
+
+.font-koho {
+  font-family: 'KoHo', sans-serif;
+}
+
+.font-kosugi {
+  font-family: 'Kosugi Maru', sans-serif;
+}
+
+.font-handwritten-alt {
+  font-family: 'Sacramento', cursive;
+}
+
+.font-handwritten-sketchy {
+  font-family: 'Reenie Beanie', cursive;
+}
+
+/* Figma'daki tekrarlayan sınır deseni */
+.border-pattern-bottom {
+  background-image: repeating-linear-gradient(90deg, transparent, transparent 40px);
+  position: relative;
+}
+
+/* Slayt geçişleri için Premium Fade-In Animasyonu */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
