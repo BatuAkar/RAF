@@ -380,8 +380,8 @@ export default function AdminPage() {
     if (session?.user) {
       try {
         await supabase
-          .from("profiles")
-          .update({ is_admin: newStatus })
+          .from("profiles" as any)
+          .update({ is_admin: newStatus } as any)
           .eq("id", member.id)
       } catch (err) {
         console.error("Üye yetki güncelleme hatası:", err)
