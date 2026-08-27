@@ -292,7 +292,7 @@ export default function ProfilePage() {
 
     try {
       const { data: statusData, error } = await supabase
-        .from("user_books_status")
+        .from("user_books_status" as any)
         .select(`
           book_id,
           status,
@@ -300,7 +300,7 @@ export default function ProfilePage() {
           rating,
           books (id, title, authors, cover_url)
         `)
-        .eq("user_id", userId)
+        .eq("user_id", userId) as any
 
       if (!error && statusData) {
         const formattedBooks: ProfileBook[] = statusData.map((item: any) => ({
@@ -584,7 +584,7 @@ export default function ProfilePage() {
           published_date: volumeInfo.publishedDate || ""
         })
 
-        await supabase.from("user_books_status").upsert({
+        await supabase.from("user_books_status" as any).upsert({
           user_id: userSession.user.id,
           book_id: googleBook.id,
           status: newBook.status === "to_read" ? "want_to_read" : (newBook.status as any),
@@ -613,7 +613,7 @@ export default function ProfilePage() {
       try {
         const book = updatedBooks.find((b) => b.id === bookId)
         if (book) {
-          await supabase.from("user_books_status").upsert({
+          await supabase.from("user_books_status" as any).upsert({
             user_id: userSession.user.id,
             book_id: bookId,
             status: book.status === "to_read" ? "want_to_read" : (book.status as any),
@@ -638,7 +638,7 @@ export default function ProfilePage() {
     if (userSession?.user) {
       try {
         await supabase
-          .from("user_books_status")
+          .from("user_books_status" as any)
           .delete()
           .eq("user_id", userSession.user.id)
           .eq("book_id", bookId)
