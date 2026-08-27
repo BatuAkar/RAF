@@ -40,6 +40,10 @@ export interface GoogleBookVolumeInfo {
   previewLink?: string
   infoLink?: string
   canonicalVolumeLink?: string
+  industryIdentifiers?: Array<{
+    type: string
+    identifier: string
+  }>
 }
 
 export interface GoogleBook {
