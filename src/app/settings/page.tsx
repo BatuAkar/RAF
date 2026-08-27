@@ -52,10 +52,10 @@ export default function SettingsPage() {
         // Supabase'den profil verilerini çek
         try {
           const { data: profileData, error: profileErr } = await supabase
-            .from("profiles")
+            .from("profiles" as any)
             .select("*")
             .eq("id", session.user.id)
-            .single()
+            .single() as any
 
           if (!profileErr && profileData) {
             const loadedProfile = {
@@ -76,19 +76,19 @@ export default function SettingsPage() {
         // İstatistikleri çek
         try {
           const { count: followers } = await supabase
-            .from("follows")
+            .from("follows" as any)
             .select("*", { count: "exact", head: true })
             .eq("following_id", session.user.id)
           setFollowerCount(followers || 0)
 
           const { count: following } = await supabase
-            .from("follows")
+            .from("follows" as any)
             .select("*", { count: "exact", head: true })
             .eq("follower_id", session.user.id)
           setFollowingCount(following || 0)
 
           const { count: listSize } = await supabase
-            .from("user_books_status")
+            .from("user_books_status" as any)
             .select("*", { count: "exact", head: true })
             .eq("user_id", session.user.id)
           setListCount(listSize || 0)
@@ -138,8 +138,8 @@ export default function SettingsPage() {
     if (userSession?.user) {
       try {
         const { error } = await supabase
-          .from("profiles")
-          .update(fieldsToUpdate)
+          .from("profiles" as any)
+          .update(fieldsToUpdate as any)
           .eq("id", userSession.user.id)
 
         if (error) throw error
