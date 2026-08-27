@@ -96,9 +96,9 @@ export default function SearchPage() {
   const loadMyCustomLists = async (userId: string) => {
     try {
       const { data, error } = await supabase
-        .from("user_lists")
+        .from("user_lists" as any)
         .select("id, name")
-        .eq("user_id", userId)
+        .eq("user_id", userId) as any
       if (!error && data) {
         setCustomLists(data)
       } else {
@@ -123,11 +123,11 @@ export default function SearchPage() {
   const loadMyFollowings = async (userId: string) => {
     try {
       const { data } = await supabase
-        .from("follows")
+        .from("follows" as any)
         .select("following_id")
-        .eq("follower_id", userId)
+        .eq("follower_id", userId) as any
       if (data) {
-        setMyFollowingIds(new Set(data.map(f => f.following_id)))
+        setMyFollowingIds(new Set(data.map((f: any) => f.following_id)))
       }
     } catch (err) {
       console.error("Takip edilenler listesi alınamadı:", err)
@@ -201,7 +201,7 @@ export default function SearchPage() {
         }
       } else {
         const { error } = await supabase
-          .from("follows")
+          .from("follows" as any)
           .insert({
             follower_id: session.user.id,
             following_id: targetId
@@ -243,15 +243,15 @@ export default function SearchPage() {
         id: selectedBook.id,
         title: volumeInfo.title,
         authors: volumeInfo.authors || ["Bilinmeyen Yazar"],
-        cover_url: volumeInfo.imageLinks?.thumbnail || "",
+        thumbnail: volumeInfo.imageLinks?.thumbnail || "",
         published_date: volumeInfo.publishedDate || ""
       })
 
       // 2. Kullanıcı kitap durum tablosuna ekle
-      const { error } = await supabase.from("user_books_status").upsert({
+      const { error } = await supabase.from("user_books_status" as any).upsert({
         user_id: session.user.id,
         book_id: selectedBook.id,
-        status: status,
+        status: status === "to_read" ? "want_to_read" : (status as any),
         is_favorite: isFavorite,
         rating: null
       })
@@ -278,12 +278,12 @@ export default function SearchPage() {
         id: selectedBook.id,
         title: volumeInfo.title,
         authors: volumeInfo.authors || ["Bilinmeyen Yazar"],
-        cover_url: volumeInfo.imageLinks?.thumbnail || "",
+        thumbnail: volumeInfo.imageLinks?.thumbnail || "",
         published_date: volumeInfo.publishedDate || ""
       })
 
       // 2. list_books tablosuna ekle
-      const { error } = await supabase.from("list_books").insert({
+      const { error } = await supabase.from("list_books" as any).insert({
         list_id: listId,
         book_id: selectedBook.id
       })
@@ -364,7 +364,7 @@ export default function SearchPage() {
         // DB
         if (session?.user) {
           try {
-            await supabase.from("user_lists").insert({
+            await supabase.from("user_lists" as any).insert({
               id: newListId,
               user_id: session.user.id,
               name: trimmedName
