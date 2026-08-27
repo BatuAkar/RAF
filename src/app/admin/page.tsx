@@ -394,7 +394,7 @@ export default function AdminPage() {
       const { data, error } = await supabase
         .from("instagram_items" as any)
         .select("*")
-        .order("id", { ascending: true })
+        .order("id", { ascending: true }) as any
 
       const DEFAULT_INSTAGRAM = [
         { id: 1, image_url: "/images/reading1.png", username: "instagram:@RAF&CO.", link: "https://instagram.com" },
