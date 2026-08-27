@@ -128,14 +128,8 @@ export default function AdminPage() {
           console.error("Profil adminlik kontrolü hatası:", err)
         }
       } else {
-        // Offline / LocalStorage Modu
-        const localProfile = localStorage.getItem("raf_profile_info")
-        if (localProfile) {
-          const parsed = JSON.parse(localProfile)
-          profileIsAdmin = parsed.is_admin ?? true // Varsayılan true
-        } else {
-          profileIsAdmin = true // Varsayılan true
-        }
+        // Giriş yapılmamışsa doğrudan yetkisiz yap
+        profileIsAdmin = false
       }
 
       if (!profileIsAdmin) {

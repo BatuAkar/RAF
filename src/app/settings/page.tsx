@@ -103,30 +103,9 @@ export default function SettingsPage() {
           console.error("İstatistikler yüklenemedi:", err)
         }
       } else {
-        // Oturum yoksa LocalStorage veya Varsayılanları kullan
-        const localProfile = localStorage.getItem("raf_profile_info")
-        if (localProfile) {
-          const parsed = JSON.parse(localProfile)
-          setProfile({ ...parsed, is_admin: parsed.is_admin ?? true }) // Offline modda test kolaylığı için varsayılan true
-          setTempName(parsed.full_name)
-          setTempBio(parsed.bio)
-        } else {
-          setProfile({
-            full_name: "Yeni Küratör",
-            bio: "biyografinizi buraya ekleyin...",
-            username: "user",
-            avatar_url: "",
-            is_admin: true // Offline modda test kolaylığı için varsayılan true
-          })
-          setTempName("Yeni Küratör")
-          setTempBio("biyografinizi buraya ekleyin...")
-        }
-
-        const localBooks = localStorage.getItem("raf_profile_books")
-        if (localBooks) {
-          const parsedBooks = JSON.parse(localBooks)
-          setListCount(parsedBooks.length)
-        }
+        // Oturum yoksa login sayfasına yönlendir
+        router.push("/login")
+        return
       }
       setLoading(false)
     }
