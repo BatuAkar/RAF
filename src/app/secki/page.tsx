@@ -22,9 +22,9 @@ export default function SeckiPage() {
     const fetchSeckiItems = async () => {
       try {
         const { data, error } = await supabase
-          .from("secki_items")
+          .from("secki_items" as any)
           .select("*")
-          .order("created_at", { ascending: true })
+          .order("created_at", { ascending: true }) as any
 
         if (!error && data && data.length > 0) {
           setSeckiItems(data.map((item: any, idx: number) => ({
