@@ -587,7 +587,7 @@ export default function ProfilePage() {
         await supabase.from("user_books_status").upsert({
           user_id: userSession.user.id,
           book_id: googleBook.id,
-          status: newBook.status,
+          status: newBook.status === "to_read" ? "want_to_read" : (newBook.status as any),
           is_favorite: newBook.is_favorite,
           rating: null
         })
@@ -616,7 +616,7 @@ export default function ProfilePage() {
           await supabase.from("user_books_status").upsert({
             user_id: userSession.user.id,
             book_id: bookId,
-            status: book.status,
+            status: book.status === "to_read" ? "want_to_read" : (book.status as any),
             is_favorite: book.is_favorite,
             rating: book.rating
           })
