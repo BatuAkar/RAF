@@ -31,13 +31,13 @@ export default function LandingPage() {
     const fetchInstagramItems = async () => {
       try {
         const { data, error } = await supabase
-          .from("instagram_items")
+          .from("instagram_items" as any)
           .select("*")
-          .order("id", { ascending: true })
+          .order("id", { ascending: true }) as any
 
         if (!error && data && data.length > 0) {
           const items = DEFAULT_INSTAGRAM.map(def => {
-            const found = data.find(d => d.id === def.id)
+            const found = data.find((d: any) => d.id === def.id)
             return found || def
           })
           setInstagramItems(items)
