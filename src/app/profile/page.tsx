@@ -214,20 +214,20 @@ export default function ProfilePage() {
   const loadUserCustomLists = async (userId: string) => {
     try {
       const { data: listsData, error: listsErr } = await supabase
-        .from("user_lists")
+        .from("user_lists" as any)
         .select("id, name")
-        .eq("user_id", userId)
+        .eq("user_id", userId) as any
 
       if (!listsErr && listsData) {
         const tempLists: CustomList[] = []
         for (const list of listsData) {
           const { data: listBooksData } = await supabase
-            .from("list_books")
+            .from("list_books" as any)
             .select(`
               book_id,
               books (id, title, authors, cover_url)
             `)
-            .eq("list_id", list.id)
+            .eq("list_id", list.id) as any
 
           const listBooks: ProfileBook[] = (listBooksData || []).map((item: any) => ({
             id: item.book_id,
@@ -675,7 +675,7 @@ export default function ProfilePage() {
 
     if (userSession?.user) {
       try {
-        await supabase.from("user_lists").insert({
+        await supabase.from("user_lists" as any).insert({
           id: newListId,
           user_id: userSession.user.id,
           name: name.trim()
@@ -694,7 +694,7 @@ export default function ProfilePage() {
 
     if (userSession?.user) {
       try {
-        await supabase.from("user_lists").delete().eq("id", listId)
+        await supabase.from("user_lists" as any).delete().eq("id", listId)
       } catch (err) {
         console.error("Supabase list deletion error:", err)
       }
@@ -739,7 +739,7 @@ export default function ProfilePage() {
           published_date: volumeInfo.publishedDate || ""
         })
 
-        await supabase.from("list_books").insert({
+        await supabase.from("list_books" as any).insert({
           list_id: listId,
           book_id: googleBook.id
         })
@@ -768,7 +768,7 @@ export default function ProfilePage() {
     if (userSession?.user) {
       try {
         await supabase
-          .from("list_books")
+          .from("list_books" as any)
           .delete()
           .eq("list_id", listId)
           .eq("book_id", bookId)
