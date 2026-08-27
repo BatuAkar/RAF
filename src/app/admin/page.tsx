@@ -405,7 +405,7 @@ export default function AdminPage() {
       let items = DEFAULT_INSTAGRAM
       if (!error && data && data.length > 0) {
         items = DEFAULT_INSTAGRAM.map(def => {
-          const found = data.find(d => d.id === def.id)
+          const found = data.find((d: any) => d.id === def.id)
           return found || def
         })
       } else {
