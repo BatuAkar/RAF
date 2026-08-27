@@ -41,6 +41,13 @@ export default function SettingsPage() {
   const [userSession, setUserSession] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
+  // Şifre sıfırlama / değiştirme durumları
+  const [showPasswordModal, setShowPasswordModal] = useState(false)
+  const [newPassword, setNewPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [passwordLoading, setPasswordLoading] = useState(false)
+  const [passwordMessage, setPasswordMessage] = useState<{ type: "success" | "error"; text: string } | null>(null)
+
   // 1. Veri Yükleme
   useEffect(() => {
     const loadUserData = async () => {
@@ -125,6 +132,13 @@ export default function SettingsPage() {
     }
 
     loadUserData()
+
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search)
+      if (params.get("reset") === "true") {
+        setShowPasswordModal(true)
+      }
+    }
   }, [])
 
   // 2. Veri Kaydetme Fonksiyonu
@@ -193,6 +207,50 @@ export default function SettingsPage() {
     } catch (err) {
       console.error("Çıkış yapılırken hata oluştu:", err)
       router.push("/")
+    }
+  }
+
+  // Şifre güncelleme işleyicisi
+  const handleUpdatePassword = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!newPassword || !confirmPassword) {
+      setPasswordMessage({ type: "error", text: "lütfen tüm alanları doldurun." })
+      return
+    }
+    if (newPassword !== confirmPassword) {
+      setPasswordMessage({ type: "error", text: "şifreler birbiriyle eşleşmiyor." })
+      return
+    }
+    if (newPassword.length < 6) {
+      setPasswordMessage({ type: "error", text: "şifreniz en az 6 karakter olmalıdır." })
+      return
+    }
+
+    setPasswordLoading(true)
+    setPasswordMessage(null)
+
+    try {
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword
+      })
+
+      if (error) {
+        setPasswordMessage({ type: "error", text: `güncelleme başarısız: ${error.message}` })
+      } else {
+        setPasswordMessage({ type: "success", text: "şifreniz başarıyla güncellendi!" })
+        setNewPassword("")
+        setConfirmPassword("")
+        setTimeout(() => {
+          setShowPasswordModal(false)
+          setPasswordMessage(null)
+          router.replace("/settings")
+        }, 1500)
+      }
+    } catch (err: any) {
+      console.error("Şifre güncelleme hatası:", err)
+      setPasswordMessage({ type: "error", text: "bağlantı hatası oluştu." })
+    } finally {
+      setPasswordLoading(false)
     }
   }
 
@@ -391,6 +449,15 @@ export default function SettingsPage() {
               </Link>
             )}
             <button 
+              onClick={() => {
+                setPasswordMessage(null)
+                setShowPasswordModal(true)
+              }}
+              className="px-6 py-2 border border-slate-300 text-slate-600 hover:bg-[#1a2542] hover:text-white bg-transparent rounded-full text-sm font-sans font-medium transition-all cursor-pointer duration-300 shadow-sm"
+            >
+              şifre değiştir
+            </button>
+            <button 
               onClick={() => setShowLogoutModal(true)}
               className="px-6 py-2 border border-accent-pink text-accent-pink hover:bg-accent-pink hover:text-white bg-transparent rounded-full text-sm font-sans font-medium transition-all cursor-pointer duration-300 shadow-sm"
             >
@@ -450,6 +517,83 @@ export default function SettingsPage() {
                 vazgeç
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Şifre Değiştirme Modalı */}
+      {showPasswordModal && (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center backdrop-blur-sm">
+          <div className="bg-white border border-slate-200/80 p-6 sm:p-8 rounded-3xl max-w-sm w-full mx-4 shadow-2xl flex flex-col items-center animate-fade-in relative z-50">
+            {/* Tatlı Görsel Simge */}
+            <div className="w-16 h-16 rounded-full bg-[#fbf8f7] flex items-center justify-center mb-4 text-[#1a2542] border border-slate-200">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.8" stroke="currentColor" className="w-8 h-8">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+              </svg>
+            </div>
+
+            {/* Metin */}
+            <h3 className="font-sans font-bold text-[#1a2542] text-lg uppercase tracking-wide">
+              şifrenizi güncelleyin
+            </h3>
+            <p className="font-serif text-xs text-slate-400 mt-1 text-center lowercase leading-relaxed">
+              lütfen yeni şifrenizi belirleyin. şifreniz en az 6 karakter olmalıdır.
+            </p>
+
+            {/* Şifre Formu */}
+            <form onSubmit={handleUpdatePassword} className="w-full mt-5 flex flex-col gap-4">
+              <div className="flex flex-col gap-1.5 text-left w-full">
+                <label className="font-serif text-sm text-[#1a2542] lowercase pl-1 select-none">yeni şifre:</label>
+                <input
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="w-full px-4 py-2 rounded-full border border-slate-200 outline-none focus:border-accent-pink transition-colors font-sans text-sm text-[#1a2542] bg-[#fbf8f7]/50"
+                  disabled={passwordLoading}
+                />
+              </div>
+
+              <div className="flex flex-col gap-1.5 text-left w-full">
+                <label className="font-serif text-sm text-[#1a2542] lowercase pl-1 select-none">şifreyi onayla:</label>
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="w-full px-4 py-2 rounded-full border border-slate-200 outline-none focus:border-accent-pink transition-colors font-sans text-sm text-[#1a2542] bg-[#fbf8f7]/50"
+                  disabled={passwordLoading}
+                />
+              </div>
+
+              {passwordMessage && (
+                <div className={`text-xs text-center font-serif leading-relaxed mt-1 select-none ${passwordMessage.type === "success" ? "text-emerald-600" : "text-rose-600"}`}>
+                  {passwordMessage.text}
+                </div>
+              )}
+
+              {/* Butonlar */}
+              <div className="flex items-center gap-3 w-full mt-4 justify-center">
+                <button
+                  type="submit"
+                  disabled={passwordLoading}
+                  className="px-5 py-2.5 bg-[#1a2542] hover:bg-accent-pink text-white rounded-full text-xs font-sans font-semibold uppercase tracking-wider transition-colors cursor-pointer w-1/2 disabled:opacity-50"
+                >
+                  {passwordLoading ? "kaydediliyor..." : "şifreyi kaydet"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowPasswordModal(false)
+                    router.replace("/settings")
+                  }}
+                  disabled={passwordLoading}
+                  className="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-full text-xs font-sans font-semibold uppercase tracking-wider transition-colors cursor-pointer w-1/2 disabled:opacity-50"
+                >
+                  vazgeç
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
