@@ -420,7 +420,7 @@ export default function ProfilePage() {
             setProfile({
               full_name: targetProfile.full_name || "Küratör",
               bio: targetProfile.bio || "biyografisini henüz yazmamış...",
-              username: targetProfile.username,
+              username: targetProfile.username || "",
               avatar_url: targetProfile.avatar_url || ""
             })
             setEditName(targetProfile.full_name || "Küratör")
