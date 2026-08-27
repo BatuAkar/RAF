@@ -59,7 +59,7 @@ export default function ConnectionsPage() {
             .eq("following_id", targetUserId) as any
 
           if (!followersErr && followersList && followersList.length > 0) {
-            const followerIds = followersList.map(f => f.follower_id)
+            const followerIds = followersList.map((f: any) => f.follower_id)
             const { data: followerProfiles } = await supabase
               .from("profiles")
               .select("id, username, full_name, avatar_url, bio")
@@ -81,7 +81,7 @@ export default function ConnectionsPage() {
             .eq("follower_id", targetUserId) as any
 
           if (!followingErr && followingList && followingList.length > 0) {
-            const followingIds = followingList.map(f => f.following_id)
+            const followingIds = followingList.map((f: any) => f.following_id)
             const { data: followingProfiles } = await supabase
               .from("profiles")
               .select("id, username, full_name, avatar_url, bio")
