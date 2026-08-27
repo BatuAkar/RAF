@@ -580,7 +580,7 @@ export default function ProfilePage() {
           id: googleBook.id,
           title: volumeInfo.title,
           authors: volumeInfo.authors || ["Bilinmeyen Yazar"],
-          cover_url: volumeInfo.imageLinks?.thumbnail || "",
+          thumbnail: volumeInfo.imageLinks?.thumbnail || "",
           published_date: volumeInfo.publishedDate || ""
         })
 
@@ -735,7 +735,7 @@ export default function ProfilePage() {
           id: googleBook.id,
           title: volumeInfo.title,
           authors: volumeInfo.authors || ["Bilinmeyen Yazar"],
-          cover_url: volumeInfo.imageLinks?.thumbnail || "",
+          thumbnail: volumeInfo.imageLinks?.thumbnail || "",
           published_date: volumeInfo.publishedDate || ""
         })
 
