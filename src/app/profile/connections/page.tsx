@@ -54,9 +54,9 @@ export default function ConnectionsPage() {
         try {
           // 1. Takipçileri Yükle (following_id = hedef kullanıcı id)
           const { data: followersList, error: followersErr } = await supabase
-            .from("follows")
+            .from("follows" as any)
             .select("follower_id")
-            .eq("following_id", targetUserId)
+            .eq("following_id", targetUserId) as any
 
           if (!followersErr && followersList && followersList.length > 0) {
             const followerIds = followersList.map(f => f.follower_id)
@@ -76,9 +76,9 @@ export default function ConnectionsPage() {
 
           // 2. Takip Edilenleri Yükle (follower_id = hedef kullanıcı id)
           const { data: followingList, error: followingErr } = await supabase
-            .from("follows")
+            .from("follows" as any)
             .select("following_id")
-            .eq("follower_id", targetUserId)
+            .eq("follower_id", targetUserId) as any
 
           if (!followingErr && followingList && followingList.length > 0) {
             const followingIds = followingList.map(f => f.following_id)

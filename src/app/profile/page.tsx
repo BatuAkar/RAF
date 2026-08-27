@@ -258,13 +258,13 @@ export default function ProfilePage() {
   const loadStatsAndBooks = async (userId: string) => {
     try {
       const { count: followers } = await supabase
-        .from("follows")
+        .from("follows" as any)
         .select("*", { count: "exact", head: true })
         .eq("following_id", userId)
       setFollowerCount(followers || 0)
 
       const { count: following } = await supabase
-        .from("follows")
+        .from("follows" as any)
         .select("*", { count: "exact", head: true })
         .eq("follower_id", userId)
       setFollowingCount(following || 0)
@@ -276,11 +276,11 @@ export default function ProfilePage() {
       const { data: { session } } = await supabase.auth.getSession()
       if (session?.user && session.user.id !== userId) {
         const { data: followCheck } = await supabase
-          .from("follows")
+          .from("follows" as any)
           .select("*")
           .eq("follower_id", session.user.id)
           .eq("following_id", userId)
-          .maybeSingle()
+          .maybeSingle() as any
 
         setIsFollowing(!!followCheck)
       } else {
@@ -357,7 +357,7 @@ export default function ProfilePage() {
       if (isFollowing) {
         // Unfollow
         const { error } = await supabase
-          .from("follows")
+          .from("follows" as any)
           .delete()
           .eq("follower_id", userSession.user.id)
           .eq("following_id", targetUser.id)
@@ -369,7 +369,7 @@ export default function ProfilePage() {
       } else {
         // Follow
         const { error } = await supabase
-          .from("follows")
+          .from("follows" as any)
           .insert({
             follower_id: userSession.user.id,
             following_id: targetUser.id
