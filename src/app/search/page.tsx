@@ -187,7 +187,7 @@ export default function SearchPage() {
     try {
       if (isCurrentlyFollowing) {
         const { error } = await supabase
-          .from("follows")
+          .from("follows" as any)
           .delete()
           .eq("follower_id", session.user.id)
           .eq("following_id", targetId)
