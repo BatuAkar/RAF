@@ -44,18 +44,35 @@ export default function RegisterPage() {
       },
     })
 
-    setLoading(false)
-
     if (error) {
+      setLoading(false)
       setMessage({ type: "error", text: `Kayıt hatası: ${error.message}` })
     } else {
-      setMessage({
-        type: "success",
-        text: "Kayıt başarılı! Lütfen varsa e-posta onay kutunuzu kontrol edin veya giriş yapın.",
+      // Kayıt başarılı olduğunda kullanıcıyı bekletmeden anında otomatik giriş yapıyoruz
+      const { error: signInErr } = await supabase.auth.signInWithPassword({
+        email,
+        password,
       })
-      setTimeout(() => {
-        router.push("/login")
-      }, 2500)
+
+      setLoading(false)
+
+      if (!signInErr) {
+        setMessage({
+          type: "success",
+          text: "Kayıt başarılı! Giriş yapılıyor...",
+        })
+        setTimeout(() => {
+          router.push("/")
+        }, 1000)
+      } else {
+        setMessage({
+          type: "success",
+          text: "Kayıt başarılı! Giriş ekranına yönlendiriliyorsunuz...",
+        })
+        setTimeout(() => {
+          router.push("/login")
+        }, 1500)
+      }
     }
   }
 

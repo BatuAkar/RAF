@@ -78,39 +78,6 @@ export default function LoginPage() {
     }
   }
 
-  // E-posta ile Tek Kullanımlık Kod Gönderme (OTP / Kod ile Giriş Yap)
-  const handleSendOTP = async () => {
-    if (!email) {
-      setMessage({ type: "error", text: "Kod alabilmek için önce e-posta adresinizi yazmalısınız." })
-      return
-    }
-
-    setLoading(true)
-    setMessage(null)
-
-    try {
-      const { error } = await supabase.auth.signInWithOtp({
-        email,
-        options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
-        },
-      })
-
-      if (error) {
-        setMessage({ type: "error", text: `Kod gönderme hatası: ${error.message}` })
-      } else {
-        setMessage({ type: "success", text: "Giriş bağlantısı e-posta adresinize gönderildi!" })
-      }
-    } catch (err: any) {
-      console.error("OTP gönderme hatası:", err)
-      setMessage({ 
-        type: "error", 
-        text: "bağlantı hatası: giriş kodu gönderilemedi. veritabanını kontrol edin." 
-      })
-    } finally {
-      setLoading(false)
-    }
-  }
 
   return (
     <div className="min-h-screen bg-[#fbf8f7] flex flex-col justify-between overflow-x-hidden relative selection:bg-accent-pink selection:text-white">
@@ -194,15 +161,8 @@ export default function LoginPage() {
 
           </form>
 
-          {/* Destekleyici Linkler (Kod ile giriş, Şifremi unuttum) */}
-          <div className="mt-6 flex flex-col items-center gap-3 select-none">
-            <button
-              onClick={handleSendOTP}
-              disabled={loading}
-              className="font-serif text-[15px] text-[#1a2542] hover:text-[#1a2542]/85 hover:underline cursor-pointer lowercase"
-            >
-              kod ile giriş yap
-            </button>
+          {/* Destekleyici Linkler (Şifremi unuttum) */}
+          <div className="mt-4 flex flex-col items-center select-none">
             <Link
               href="/forgot-password"
               className="font-serif text-sm text-slate-400 hover:text-slate-500 hover:underline lowercase"
