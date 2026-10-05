@@ -8,17 +8,35 @@ export default function AuthCallback() {
   const router = useRouter()
 
   useEffect(() => {
-    // Supabase URL hash'indeki auth verilerini yakalayıp oturumu kurar
+    // 1. PKCE akışı için code parametresi varsa session'a dönüştür
+    const handleAuth = async () => {
+      if (typeof window !== "undefined") {
+        const params = new URLSearchParams(window.location.search)
+        const code = params.get("code")
+        if (code) {
+          try {
+            const { data, error } = await supabase.auth.exchangeCodeForSession(code)
+            if (!error && data.session) {
+              router.push("/")
+              return
+            }
+          } catch (e) {
+            console.error("Code exchange error:", e)
+          }
+        }
+      }
+    }
+
+    handleAuth()
+
+    // 2. Supabase URL hash'indeki auth verilerini yakalayıp oturumu kurar
     const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
       if (session) {
         router.push("/")
-      } else {
-        // Oturum açılmadıysa login sayfasına yönlendirir
-        router.push("/login")
       }
     })
 
-    // 5 saniye içinde onAuthStateChange tetiklenmezse güvenlik amaçlı ana sayfaya zorla yönlendir
+    // 5 saniye içinde oturum kurulamazsa ana sayfaya yönlendir
     const timeout = setTimeout(() => {
       router.push("/")
     }, 5000)
