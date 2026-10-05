@@ -123,9 +123,9 @@ export default function ProfilePage() {
     username: "",
     avatar_url: ""
   })
-  const [followerCount, setFollowerCount] = useState(24)
-  const [followingCount, setFollowingCount] = useState(5)
-  const [listCount, setListCount] = useState(24)
+  const [followerCount, setFollowerCount] = useState(0)
+  const [followingCount, setFollowingCount] = useState(0)
+  const [listCount, setListCount] = useState(0)
 
   const [isEditing, setIsEditing] = useState(false)
   const [editName, setEditName] = useState("")
@@ -308,18 +308,30 @@ export default function ProfilePage() {
           title: item.books?.title || "Bilinmeyen Kitap",
           authors: item.books?.authors || ["Bilinmeyen Yazar"],
           cover_url: item.books?.cover_url || "",
-          status: item.status || "to_read",
+          status: (item.status === "want_to_read" || item.status === "to_read") ? "to_read" : item.status || "to_read",
           is_favorite: item.is_favorite || false,
           rating: item.rating || null
         }))
         setBooks(formattedBooks)
         setListCount(formattedBooks.length)
       } else {
-        loadBooksFromLocalStorage()
+        const params = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null
+        if (!params?.get("username")) {
+          loadBooksFromLocalStorage()
+        } else {
+          setBooks([])
+          setListCount(0)
+        }
       }
     } catch (err) {
       console.warn("Supabase verileri çekilirken hata oluştu:", err)
-      loadBooksFromLocalStorage()
+      const params = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null
+      if (!params?.get("username")) {
+        loadBooksFromLocalStorage()
+      } else {
+        setBooks([])
+        setListCount(0)
+      }
     }
   }
 
@@ -580,17 +592,17 @@ export default function ProfilePage() {
           id: googleBook.id,
           title: volumeInfo.title,
           authors: volumeInfo.authors || ["Bilinmeyen Yazar"],
-          thumbnail: volumeInfo.imageLinks?.thumbnail || "",
+          cover_url: volumeInfo.imageLinks?.thumbnail || "",
           published_date: volumeInfo.publishedDate || ""
-        })
+        }, { onConflict: "id", ignoreDuplicates: true })
 
         await supabase.from("user_books_status" as any).upsert({
           user_id: userSession.user.id,
           book_id: googleBook.id,
-          status: newBook.status === "to_read" ? "want_to_read" : (newBook.status as any),
+          status: newBook.status,
           is_favorite: newBook.is_favorite,
           rating: null
-        })
+        }, { onConflict: "user_id,book_id" })
       } catch (err) {
         console.error("Supabase insert error:", err)
       }
@@ -616,10 +628,10 @@ export default function ProfilePage() {
           await supabase.from("user_books_status" as any).upsert({
             user_id: userSession.user.id,
             book_id: bookId,
-            status: book.status === "to_read" ? "want_to_read" : (book.status as any),
+            status: book.status,
             is_favorite: book.is_favorite,
             rating: book.rating
-          })
+          }, { onConflict: "user_id,book_id" })
         }
       } catch (err) {
         console.error("Supabase update error:", err)
@@ -735,9 +747,9 @@ export default function ProfilePage() {
           id: googleBook.id,
           title: volumeInfo.title,
           authors: volumeInfo.authors || ["Bilinmeyen Yazar"],
-          thumbnail: volumeInfo.imageLinks?.thumbnail || "",
+          cover_url: volumeInfo.imageLinks?.thumbnail || "",
           published_date: volumeInfo.publishedDate || ""
-        })
+        }, { onConflict: "id", ignoreDuplicates: true })
 
         await supabase.from("list_books" as any).insert({
           list_id: listId,
@@ -795,7 +807,7 @@ export default function ProfilePage() {
   // Aktif sekme kitapları
   const filteredBooks = books.filter((b) => {
     if (activeTab === "favorites") return b.is_favorite
-    if (activeTab === "to_read") return b.status === "to_read"
+    if (activeTab === "to_read") return b.status === "to_read" || (b.status as any) === "want_to_read"
     if (activeTab === "read") return b.status === "read"
     return false
   })

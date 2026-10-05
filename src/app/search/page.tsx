@@ -243,18 +243,18 @@ export default function SearchPage() {
         id: selectedBook.id,
         title: volumeInfo.title,
         authors: volumeInfo.authors || ["Bilinmeyen Yazar"],
-        thumbnail: volumeInfo.imageLinks?.thumbnail || "",
+        cover_url: volumeInfo.imageLinks?.thumbnail || "",
         published_date: volumeInfo.publishedDate || ""
-      })
+      }, { onConflict: "id", ignoreDuplicates: true })
 
       // 2. Kullanıcı kitap durum tablosuna ekle
       const { error } = await supabase.from("user_books_status" as any).upsert({
         user_id: session.user.id,
         book_id: selectedBook.id,
-        status: status === "to_read" ? "want_to_read" : (status as any),
+        status: status,
         is_favorite: isFavorite,
         rating: null
-      })
+      }, { onConflict: "user_id,book_id" })
 
       if (error) throw error
 
@@ -278,9 +278,9 @@ export default function SearchPage() {
         id: selectedBook.id,
         title: volumeInfo.title,
         authors: volumeInfo.authors || ["Bilinmeyen Yazar"],
-        thumbnail: volumeInfo.imageLinks?.thumbnail || "",
+        cover_url: volumeInfo.imageLinks?.thumbnail || "",
         published_date: volumeInfo.publishedDate || ""
-      })
+      }, { onConflict: "id", ignoreDuplicates: true })
 
       // 2. list_books tablosuna ekle
       const { error } = await supabase.from("list_books" as any).insert({
@@ -659,10 +659,24 @@ export default function SearchPage() {
               </button>
 
               <button
+                onClick={() => handleSaveBookToLibrary("to_read", false)}
+                className="w-full py-2.5 px-4 bg-white border border-slate-200 text-slate-600 hover:text-accent-pink hover:border-accent-pink rounded-2xl text-xs font-semibold font-sans transition-all duration-200 cursor-pointer flex items-center justify-center gap-2"
+              >
+                okuma listeme ekle (okuyacaklarım)
+              </button>
+
+              <button
+                onClick={() => handleSaveBookToLibrary("reading", false)}
+                className="w-full py-2.5 px-4 bg-white border border-slate-200 text-slate-600 hover:text-accent-pink hover:border-accent-pink rounded-2xl text-xs font-semibold font-sans transition-all duration-200 cursor-pointer flex items-center justify-center gap-2"
+              >
+                şu an okuyorum
+              </button>
+
+              <button
                 onClick={() => handleSaveBookToLibrary("read", false)}
                 className="w-full py-2.5 px-4 bg-white border border-slate-200 text-slate-600 hover:text-accent-pink hover:border-accent-pink rounded-2xl text-xs font-semibold font-sans transition-all duration-200 cursor-pointer flex items-center justify-center gap-2"
               >
-                kaydedilenlere ekle
+                okuduklarıma ekle
               </button>
 
               {/* Özel Okuma Listeleri */}

@@ -50,34 +50,25 @@ export interface Database {
       books: {
         Row: {
           id: string
-          google_books_id: string | null
           title: string
           authors: string[] | null
-          thumbnail: string | null
-          description: string | null
-          page_count: number | null
+          cover_url: string | null
           published_date: string | null
           created_at: string
         }
         Insert: {
-          id?: string
-          google_books_id?: string | null
+          id: string
           title: string
           authors?: string[] | null
-          thumbnail?: string | null
-          description?: string | null
-          page_count?: number | null
+          cover_url?: string | null
           published_date?: string | null
           created_at?: string
         }
         Update: {
           id?: string
-          google_books_id?: string | null
           title?: string
           authors?: string[] | null
-          thumbnail?: string | null
-          description?: string | null
-          page_count?: number | null
+          cover_url?: string | null
           published_date?: string | null
           created_at?: string
         }
@@ -136,34 +127,28 @@ export interface Database {
       }
       user_books_status: {
         Row: {
-          id: string
           user_id: string
           book_id: string
-          status: "want_to_read" | "reading" | "read" | "abandoned"
-          started_at: string | null
-          finished_at: string | null
-          created_at: string
-          updated_at: string
+          status: "to_read" | "reading" | "read"
+          is_favorite: boolean
+          rating: number | null
+          added_at: string
         }
         Insert: {
-          id?: string
           user_id: string
           book_id: string
-          status: "want_to_read" | "reading" | "read" | "abandoned"
-          started_at?: string | null
-          finished_at?: string | null
-          created_at?: string
-          updated_at?: string
+          status?: "to_read" | "reading" | "read"
+          is_favorite?: boolean
+          rating?: number | null
+          added_at?: string
         }
         Update: {
-          id?: string
           user_id?: string
           book_id?: string
-          status?: "want_to_read" | "reading" | "read" | "abandoned"
-          started_at?: string | null
-          finished_at?: string | null
-          created_at?: string
-          updated_at?: string
+          status?: "to_read" | "reading" | "read"
+          is_favorite?: boolean
+          rating?: number | null
+          added_at?: string
         }
         Relationships: [
           {

@@ -18,7 +18,7 @@ export type UserBookStatusInsert = Database["public"]["Tables"]["user_books_stat
 export type UserBookStatusUpdate = Database["public"]["Tables"]["user_books_status"]["Update"]
 
 // Enums and Custom types
-export type ReadingStatus = "want_to_read" | "reading" | "read" | "abandoned"
+export type ReadingStatus = "to_read" | "reading" | "read"
 
 // Google Books API Interface Definitions
 export interface GoogleBookVolumeInfo {
