@@ -1038,71 +1038,73 @@ export default function ProfilePage() {
           {/* B ARAMA BARI VE C KİTAPLAR KUTUSU (SOLA KAYDIRILAN VE KUTUSU KOYULAŞTIRILAN ALAN) */}
           <div className="w-full flex flex-col gap-6 -ml-4 sm:-ml-8 lg:-ml-14 xl:-ml-20 transition-all">
             
-            {/* B. İnteraktif Arama & Listeye Ekleme Barı */}
-            <div ref={dropdownRef} className="w-full relative">
-              <div className="w-full flex items-center bg-white rounded-full border border-slate-200/90 shadow-sm px-5 py-2.5 focus-within:border-accent-pink transition-colors">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder={searchPlaceholder()}
-                  className="w-full bg-transparent outline-none font-serif text-base text-[#1a2542] lowercase placeholder-slate-400"
-                />
-                <button 
-                  className="text-[#1a2542] hover:text-accent-pink transition-colors ml-3 cursor-pointer"
-                  title="Kitap Ara"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                  </svg>
-                </button>
-              </div>
-
-              {/* Arama Sonuçları Dropdown */}
-              {showDropdown && (searchQuery.trim().length > 1) && (
-                <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl border border-slate-200/80 shadow-xl overflow-hidden z-30 max-h-[320px] overflow-y-auto scrollbar-thin">
-                  {isSearching ? (
-                    <div className="p-4 text-center text-sm font-serif text-slate-400 lowercase">
-                      aranıyor...
-                    </div>
-                  ) : searchResults.length === 0 ? (
-                    <div className="p-4 text-center text-sm font-serif text-slate-400 lowercase">
-                      kitap bulunamadı.
-                    </div>
-                  ) : (
-                    <div className="flex flex-col">
-                      {searchResults.map((book) => (
-                        <button
-                          key={book.id}
-                          onClick={() => handleSearchAddBook(book)}
-                          className="w-full flex items-center gap-4 p-3 hover:bg-[#fbf8f7] text-left transition-colors border-b border-slate-100 last:border-0 cursor-pointer"
-                        >
-                          <div className="w-10 h-14 bg-slate-100 rounded overflow-hidden flex-shrink-0">
-                            {book.volumeInfo.imageLinks?.thumbnail ? (
-                              <img 
-                                src={book.volumeInfo.imageLinks.thumbnail} 
-                                alt="" 
-                                className="w-full h-full object-cover" 
-                              />
-                            ) : (
-                              <div className="w-full h-full flex items-center justify-center text-[8px] text-slate-400 select-none">kapak yok</div>
-                            )}
-                          </div>
-                          <div className="flex flex-col">
-                            <span className="font-sans font-semibold text-sm text-[#1a2542] line-clamp-1">
-                              {book.volumeInfo.title}
-                            </span>
-                            <span className="font-serif text-xs text-slate-400 lowercase mt-0.5 line-clamp-1">
-                              {book.volumeInfo.authors?.join(", ") || "bilinmeyen yazar"}
-                            </span>
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                  )}
+            {/* B. İnteraktif Arama & Listeye Ekleme Barı - Sadece Kendi Profilinde Görünür */}
+            {isOwnProfile && (
+              <div ref={dropdownRef} className="w-full relative">
+                <div className="w-full flex items-center bg-white rounded-full border border-slate-200/90 shadow-sm px-5 py-2.5 focus-within:border-accent-pink transition-colors">
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder={searchPlaceholder()}
+                    className="w-full bg-transparent outline-none font-serif text-base text-[#1a2542] lowercase placeholder-slate-400"
+                  />
+                  <button 
+                    className="text-[#1a2542] hover:text-accent-pink transition-colors ml-3 cursor-pointer"
+                    title="Kitap Ara"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-6 h-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+                  </button>
                 </div>
-              )}
-            </div>
+
+                {/* Arama Sonuçları Dropdown */}
+                {showDropdown && (searchQuery.trim().length > 1) && (
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl border border-slate-200/80 shadow-xl overflow-hidden z-30 max-h-[320px] overflow-y-auto scrollbar-thin">
+                    {isSearching ? (
+                      <div className="p-4 text-center text-sm font-serif text-slate-400 lowercase">
+                        aranıyor...
+                      </div>
+                    ) : searchResults.length === 0 ? (
+                      <div className="p-4 text-center text-sm font-serif text-slate-400 lowercase">
+                        kitap bulunamadı.
+                      </div>
+                    ) : (
+                      <div className="flex flex-col">
+                        {searchResults.map((book) => (
+                          <button
+                            key={book.id}
+                            onClick={() => handleSearchAddBook(book)}
+                            className="w-full flex items-center gap-4 p-3 hover:bg-[#fbf8f7] text-left transition-colors border-b border-slate-100 last:border-0 cursor-pointer"
+                          >
+                            <div className="w-10 h-14 bg-slate-100 rounded overflow-hidden flex-shrink-0">
+                              {book.volumeInfo.imageLinks?.thumbnail ? (
+                                <img 
+                                  src={book.volumeInfo.imageLinks.thumbnail} 
+                                  alt="" 
+                                  className="w-full h-full object-cover" 
+                                />
+                              ) : (
+                                <div className="w-full h-full flex items-center justify-center text-[8px] text-slate-400 select-none">kapak yok</div>
+                              )}
+                            </div>
+                            <div className="flex flex-col">
+                              <span className="font-sans font-semibold text-sm text-[#1a2542] line-clamp-1">
+                                {book.volumeInfo.title}
+                              </span>
+                              <span className="font-serif text-xs text-slate-400 lowercase mt-0.5 line-clamp-1">
+                                {book.volumeInfo.authors?.join(", ") || "bilinmeyen yazar"}
+                              </span>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* C. Kitaplar Kutusu veya Özel Listeler Kutusu */}
             <div className="w-full bg-[#efe6e1] p-5 sm:p-7 rounded-3xl border border-[#e2d5cd] shadow-sm min-h-[300px]">
@@ -1153,7 +1155,9 @@ export default function ProfilePage() {
                     {activeListDetail.books.length === 0 ? (
                       <div className="w-full py-14 text-center select-none">
                         <span className="font-serif text-slate-500 lowercase text-[15px]">
-                          bu listede henüz kitap bulunmuyor. yukarıdaki arama barını kullanarak listeye kitap ekleyebilirsiniz!
+                          {isOwnProfile
+                            ? "bu listede henüz kitap bulunmuyor. yukarıdaki arama barını kullanarak listeye kitap ekleyebilirsiniz!"
+                            : "bu listede henüz kitap bulunmuyor..."}
                         </span>
                       </div>
                     ) : (
@@ -1218,73 +1222,81 @@ export default function ProfilePage() {
                     </div>
 
                     {/* Liste Kartları Grid (İlk kart + ekleme kartıdır) */}
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 animate-fade-in">
-                      
-                      {/* En Baştaki Yeni Liste Ekleme Kartı (Siyah Gölgeli ve + İşaretli) */}
-                      {isOwnProfile && (
-                        <div
-                          onClick={() => {
-                            showCustomPrompt(
-                              "yeni liste oluştur",
-                              "lütfen oluşturmak istediğiniz listenin adını yazın:",
-                              "liste adı...",
-                              (name) => {
-                                if (name && name.trim()) {
-                                  handleCreateList(name)
+                    {customLists.length === 0 && !isOwnProfile ? (
+                      <div className="w-full py-14 text-center select-none">
+                        <span className="font-serif text-slate-500 lowercase text-[15px]">
+                          bu kullanıcı henüz bir okuma listesi oluşturmamış...
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 animate-fade-in">
+                        
+                        {/* En Baştaki Yeni Liste Ekleme Kartı (Siyah Gölgeli ve + İşaretli) */}
+                        {isOwnProfile && (
+                          <div
+                            onClick={() => {
+                              showCustomPrompt(
+                                "yeni liste oluştur",
+                                "lütfen oluşturmak istediğiniz listenin adını yazın:",
+                                "liste adı...",
+                                (name) => {
+                                  if (name && name.trim()) {
+                                    handleCreateList(name)
+                                  }
                                 }
-                              }
-                            )
-                          }}
-                          className="group bg-gradient-to-b from-[#1a2542] to-[#070825] rounded-2xl p-4 border border-slate-700/30 shadow-lg relative transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer flex flex-col justify-between aspect-[2/3]"
-                        >
-                          <div className="flex-grow flex flex-col items-center justify-center text-white select-none">
-                            <span className="text-5xl font-light mb-2 group-hover:scale-125 transition-transform duration-200 text-accent-pink">+</span>
-                            <span className="font-koho font-semibold text-xs tracking-wider uppercase opacity-85 group-hover:opacity-100 transition-opacity">yeni liste</span>
+                              )
+                            }}
+                            className="group bg-gradient-to-b from-[#1a2542] to-[#070825] rounded-2xl p-4 border border-slate-700/30 shadow-lg relative transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer flex flex-col justify-between aspect-[2/3]"
+                          >
+                            <div className="flex-grow flex flex-col items-center justify-center text-white select-none">
+                              <span className="text-5xl font-light mb-2 group-hover:scale-125 transition-transform duration-200 text-accent-pink">+</span>
+                              <span className="font-koho font-semibold text-xs tracking-wider uppercase opacity-85 group-hover:opacity-100 transition-opacity">yeni liste</span>
+                            </div>
+                            <div className="mt-3 select-none">
+                              <h4 className="font-koho font-semibold text-sm text-slate-300 lowercase line-clamp-1 group-hover:text-accent-pink transition-colors">
+                                yeni liste oluştur
+                              </h4>
+                              <span className="font-serif text-[10px] text-slate-400 lowercase mt-0.5 block">
+                                tıkla ve isimlendir
+                              </span>
+                            </div>
                           </div>
-                          <div className="mt-3 select-none">
-                            <h4 className="font-koho font-semibold text-sm text-slate-300 lowercase line-clamp-1 group-hover:text-accent-pink transition-colors">
-                              yeni liste oluştur
-                            </h4>
-                            <span className="font-serif text-[10px] text-slate-400 lowercase mt-0.5 block">
-                              tıkla ve isimlendir
-                            </span>
-                          </div>
-                        </div>
-                      )}
+                        )}
 
-                      {/* Mevcut Özel Listeler */}
-                      {customLists.map((list) => (
-                        <div
-                          key={list.id}
-                          onClick={() => setActiveListDetail(list)}
-                          className="group bg-white rounded-2xl p-3 border border-slate-200/80 shadow-sm relative transition-all duration-300 hover:shadow-md hover:-translate-y-1 cursor-pointer flex flex-col justify-between aspect-[2/3]"
-                        >
-                          {/* Kitap Kapakları 2x2 Kolajı */}
-                          <div className="w-full aspect-[2/3] bg-[#fbf8f7] border border-slate-100 rounded-xl overflow-hidden grid grid-cols-2 grid-rows-2 gap-1 p-1">
-                            {list.books.slice(0, 4).map((b, i) => (
-                              <div key={b.id || i} className="w-full h-full bg-slate-50 overflow-hidden rounded-md shadow-sm">
-                                <img src={b.cover_url} className="w-full h-full object-cover" alt="" />
-                              </div>
-                            ))}
-                            {Array.from({ length: Math.max(0, 4 - list.books.length) }).map((_, i) => (
-                              <div key={i} className="w-full h-full bg-slate-100/70 border border-dashed border-slate-200 rounded-md flex items-center justify-center text-slate-300 text-sm font-light select-none">
-                                +
-                              </div>
-                            ))}
-                          </div>
+                        {/* Mevcut Özel Listeler */}
+                        {customLists.map((list) => (
+                          <div
+                            key={list.id}
+                            onClick={() => setActiveListDetail(list)}
+                            className="group bg-white rounded-2xl p-3 border border-slate-200/80 shadow-sm relative transition-all duration-300 hover:shadow-md hover:-translate-y-1 cursor-pointer flex flex-col justify-between aspect-[2/3]"
+                          >
+                            {/* Kitap Kapakları 2x2 Kolajı */}
+                            <div className="w-full aspect-[2/3] bg-[#fbf8f7] border border-slate-100 rounded-xl overflow-hidden grid grid-cols-2 grid-rows-2 gap-1 p-1">
+                              {list.books.slice(0, 4).map((b, i) => (
+                                <div key={b.id || i} className="w-full h-full bg-slate-50 overflow-hidden rounded-md shadow-sm">
+                                  <img src={b.cover_url} className="w-full h-full object-cover" alt="" />
+                                </div>
+                              ))}
+                              {Array.from({ length: Math.max(0, 4 - list.books.length) }).map((_, i) => (
+                                <div key={i} className="w-full h-full bg-slate-100/70 border border-dashed border-slate-200 rounded-md flex items-center justify-center text-slate-300 text-sm font-light select-none">
+                                  +
+                                </div>
+                              ))}
+                            </div>
 
-                          {/* Liste Açıklama */}
-                          <div className="mt-3 select-none">
-                            <h4 className="font-koho font-semibold text-sm text-[#1a2542] lowercase group-hover:text-accent-pink transition-colors line-clamp-1">
-                              {list.name}
-                            </h4>
-                            <span className="font-serif text-[10px] text-slate-400 lowercase mt-0.5 block">
-                              {list.books.length} kitap
-                            </span>
+                            {/* Liste Açıklama */}
+                            <div className="mt-3 select-none">
+                              <h4 className="font-koho font-semibold text-sm text-[#1a2542] lowercase group-hover:text-accent-pink transition-colors line-clamp-1">
+                                {list.name}
+                              </h4>
+                              <span className="font-serif text-[10px] text-slate-400 lowercase mt-0.5 block">
+                                {list.books.length} kitap
+                              </span>
+                            </div>
                           </div>
-                        </div>
-                      ))}
-                    </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 )
               ) : (
@@ -1292,7 +1304,9 @@ export default function ProfilePage() {
                 filteredBooks.length === 0 ? (
                   <div className="w-full py-14 text-center select-none">
                     <span className="font-serif text-slate-500 lowercase text-[15px]">
-                      bu listede henüz kitap bulunmuyor. yukarıdaki arama barından ekleyebilirsiniz!
+                      {isOwnProfile
+                        ? "bu listede henüz kitap bulunmuyor. yukarıdaki arama barından ekleyebilirsiniz!"
+                        : "bu kullanıcı henüz kitap eklememiş..."}
                     </span>
                   </div>
                 ) : (
@@ -1446,7 +1460,7 @@ export default function ProfilePage() {
                 <path id="circle-text-path" d="M 15 115 C 60 0, 280 0, 325 115" fill="transparent" />
                 <text className="font-handwritten fill-[#1a2542] tracking-wider" style={{ fontSize: "22px" }}>
                   <textPath href="#circle-text-path" startOffset="50%" textAnchor="middle">
-                    güncel olarak okuduklarım
+                    {isOwnProfile ? "güncel olarak okuduklarım" : "güncel olarak okudukları"}
                   </textPath>
                 </text>
               </svg>
@@ -1457,7 +1471,7 @@ export default function ProfilePage() {
               {readingBooks.length === 0 ? (
                 <div className="w-[120px] h-[180px] rounded-xl border-2 border-dashed border-[#1a2542]/20 flex items-center justify-center text-center p-3 rotate-[-6deg] bg-white/70 mt-8 shadow-sm">
                   <span className="font-serif text-slate-400 lowercase text-[10px] leading-snug">
-                    henüz okunan kitap yok.
+                    {isOwnProfile ? "henüz okunan kitap yok." : "bu kullanıcı henüz bir kitap okumuyor."}
                   </span>
                 </div>
               ) : (
