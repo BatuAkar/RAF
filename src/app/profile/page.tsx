@@ -1344,7 +1344,7 @@ export default function ProfilePage() {
                         </div>
 
                         {/* HOVER EFEKTİ */}
-                        <div className="absolute inset-0 bg-black/80 flex flex-col justify-between p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 text-white">
+                        <div className="absolute inset-0 bg-black/80 flex flex-col justify-between p-3.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 text-white">
                           
                           <div className="flex justify-end select-none">
                             {isOwnProfile && (
@@ -1360,12 +1360,18 @@ export default function ProfilePage() {
                             )}
                           </div>
 
-                          <div className="flex flex-col gap-2 items-center select-none pt-2 border-t border-white/10">
+                          <div className="flex flex-col gap-2 items-center select-none pt-2 border-t border-white/10 w-full">
                             
                             {/* 5 Yıldızlı İnteraktif Puanlama Sistemi */}
-                            {isOwnProfile && (
-                              <div className="flex flex-col items-center gap-1">
-                                <span className="text-[10px] text-slate-400 lowercase">puan ver:</span>
+                            {isOwnProfile ? (
+                              <div className="flex flex-col items-center gap-1 w-full text-center">
+                                {/* Puanın üstündeki kitap ismi */}
+                                <h4 className="font-serif text-xs font-semibold text-white line-clamp-2 px-1 text-center leading-snug mb-0.5" title={item.title}>
+                                  {item.title}
+                                </h4>
+                                <span className="text-[10px] text-slate-300 lowercase">
+                                  {item.rating ? `${item.rating}/10 puan` : "puan ver:"}
+                                </span>
                                 <div className="flex items-center gap-1">
                                   {[1, 2, 3, 4, 5].map((star) => {
                                     const currentStars = item.rating ? Math.round(item.rating / 2) : 0
@@ -1381,11 +1387,11 @@ export default function ProfilePage() {
                                         title={`${star} Yıldız`}
                                       >
                                         {isFilled ? (
-                                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-amber-400">
+                                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-white">
                                             <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clipRule="evenodd" />
                                           </svg>
                                         ) : (
-                                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5 text-slate-500 hover:text-amber-300">
+                                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5 text-white/40 hover:text-white">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499c.15-.363.68-.363.83 0l2.235 5.377 5.86.471c.408.033.57.542.275.833l-4.243 3.633 1.293 5.422c.088.372-.3.659-.623.473L12 17.514l-4.887 2.99c-.324.187-.711-.1-.623-.473l1.293-5.422L3.44 11.013c-.295-.29-.133-.8-.275-.833l5.86-.471 2.236-5.377Z" />
                                           </svg>
                                         )}
@@ -1393,6 +1399,17 @@ export default function ProfilePage() {
                                     )
                                   })}
                                 </div>
+                              </div>
+                            ) : (
+                              <div className="flex flex-col items-center justify-center text-center p-2">
+                                <h4 className="font-serif text-xs font-semibold text-white line-clamp-2 leading-snug">
+                                  {item.title}
+                                </h4>
+                                {item.rating && (
+                                  <span className="mt-1 text-[11px] text-white/90">
+                                    ★ {item.rating}/10
+                                  </span>
+                                )}
                               </div>
                             )}
 
