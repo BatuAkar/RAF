@@ -115,9 +115,8 @@ export default function LandingPage() {
                     href={item.link || "https://www.instagram.com/raf_co.kitap/"}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-3 flex items-center gap-1.5 text-accent-pink font-handwritten text-xl hover:underline cursor-pointer select-none"
+                    className="mt-3 flex items-center text-accent-pink font-handwritten text-xl hover:underline cursor-pointer select-none"
                   >
-                    <span className="text-base">📸</span>
                     <span>{item.username || "instagram:@raf_co.kitap"}</span>
                   </a>
                 </div>
