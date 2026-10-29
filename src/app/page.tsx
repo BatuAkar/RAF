@@ -67,11 +67,11 @@ export default function LandingPage() {
       <div className="w-full lg:w-[60%] bg-[#fbf8f7] min-h-screen lg:h-screen lg:overflow-y-auto scrollbar-thin p-0">
         
         {/* İç İçerik Taşıyıcı */}
-        <div className="min-h-full p-6 sm:p-10 lg:p-8 pb-0 lg:pb-0 flex flex-col justify-between gap-6 lg:gap-8">
+        <div className="min-h-full px-6 py-6 sm:px-10 sm:py-8 lg:px-8 lg:py-6 pb-0 lg:pb-0 flex flex-col justify-between gap-4 lg:gap-6">
           
           {/* Sol Üst: Logo, Slogan ve Orijinal El Yazısı Açıklama Metinleri */}
           <div className="select-none">
-            <div className="flex items-baseline pl-6 lg:pl-10">
+            <div className="flex items-baseline pl-4 lg:pl-6">
               <span className="font-logo text-8xl lg:text-[9.5rem] font-normal tracking-[0.03em] text-[#1a2542] leading-none">RAF</span>
               <span className="font-mono-sans text-2xl lg:text-3xl font-normal text-[#1a2542] ml-4 tracking-tight">&CO.</span>
             </div>
@@ -79,7 +79,7 @@ export default function LandingPage() {
               kitap kulübü
             </p>
             
-            <div className="mt-4 sm:mt-6 w-full pr-4 sm:pr-10 lg:pr-12 font-abhaya text-sm sm:text-base lg:text-base text-[#151a2d]/85 leading-relaxed pl-2 space-y-2.5 max-w-2xl">
+            <div className="mt-3 sm:mt-4 w-full pr-2 sm:pr-4 lg:pr-6 font-abhaya text-sm sm:text-base lg:text-base text-[#151a2d]/85 leading-relaxed pl-2 space-y-2">
               <p>
                 Hoş geldin. Burası sadece piksellerden oluşan bir alan değil; senin gözünle, senin estetik anlayışınla ve senin seçimlerinle şekillenecek olan kişisel bir müze. İnternetin uçsuz bucaksız gürültüsünde, hızla kaybolan anların arasında durup nefes alabileceğin, sadece sana hitap eden parçaları bir araya getirebileceğin o sessiz limana ulaştın.
               </p>
