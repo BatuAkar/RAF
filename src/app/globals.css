@@ -1,5 +1,5 @@
-/* Google Fonts Import (Crafty Girls, KoHo ve Kosugi Maru eklendi) */
-@import url('https://fonts.googleapis.com/css2?family=Crafty+Girls&family=Bebas+Neue&family=Antonio:wght@300;400;600;700&family=Caveat:wght@400;700&family=Outfit:wght@300;400;600;800&family=Homemade+Apple&family=Reenie+Beanie&family=Sacramento&family=KoHo:wght@300;400;500;600;700&family=Kosugi+Maru&display=swap');
+/* Google Fonts Import (Crafty Girls, KoHo, Kosugi, Abhaya Libre, Space Mono eklendi) */
+@import url('https://fonts.googleapis.com/css2?family=Crafty+Girls&family=Bebas+Neue&family=Antonio:wght@300;400;600;700&family=Caveat:wght@400;700&family=Outfit:wght@300;400;600;800&family=Homemade+Apple&family=Reenie+Beanie&family=Sacramento&family=KoHo:wght@300;400;500;600;700&family=Kosugi&family=Abhaya+Libre:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
 
 @import "tailwindcss";
 
@@ -52,7 +52,15 @@ body {
 }
 
 .font-kosugi {
-  font-family: 'Kosugi Maru', sans-serif;
+  font-family: 'Kosugi', sans-serif;
+}
+
+.font-abhaya {
+  font-family: 'Abhaya Libre', serif;
+}
+
+.font-mono-sans {
+  font-family: 'Space Mono', monospace, sans-serif;
 }
 
 .font-handwritten-alt {

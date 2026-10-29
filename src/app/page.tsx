@@ -67,26 +67,26 @@ export default function LandingPage() {
       <div className="w-full lg:w-[60%] bg-[#fbf8f7] min-h-screen lg:h-screen lg:overflow-y-auto scrollbar-thin p-0">
         
         {/* İç İçerik Taşıyıcı */}
-        <div className="min-h-full p-8 sm:p-12 pb-0 lg:pb-0 flex flex-col justify-between gap-12">
+        <div className="min-h-full p-6 sm:p-10 lg:p-8 pb-0 lg:pb-0 flex flex-col justify-between gap-6 lg:gap-8">
           
           {/* Sol Üst: Logo, Slogan ve Orijinal El Yazısı Açıklama Metinleri */}
           <div className="select-none">
             <div className="flex items-baseline pl-6 lg:pl-10">
               <span className="font-logo text-8xl lg:text-[9.5rem] font-normal tracking-[0.03em] text-[#1a2542] leading-none">RAF</span>
-              <span className="font-logo text-3xl lg:text-4xl font-light text-[#1a2542] ml-4">&CO.</span>
+              <span className="font-mono-sans text-2xl lg:text-3xl font-normal text-[#1a2542] ml-4 tracking-tight">&CO.</span>
             </div>
             <p className="font-handwritten text-xl lg:text-2xl text-[#1a2542]/85 mt-2 pl-2">
               kitap kulübü
             </p>
             
-            <div className="mt-10 w-full pr-4 sm:pr-12 lg:pr-16 font-caveat text-2xl lg:text-3xl text-[#151a2d]/75 leading-relaxed pl-2 space-y-5">
+            <div className="mt-4 sm:mt-6 w-full pr-4 sm:pr-10 lg:pr-12 font-abhaya text-sm sm:text-base lg:text-base text-[#151a2d]/85 leading-relaxed pl-2 space-y-2.5 max-w-2xl">
               <p>
                 Hoş geldin. Burası sadece piksellerden oluşan bir alan değil; senin gözünle, senin estetik anlayışınla ve senin seçimlerinle şekillenecek olan kişisel bir müze. İnternetin uçsuz bucaksız gürültüsünde, hızla kaybolan anların arasında durup nefes alabileceğin, sadece sana hitap eden parçaları bir araya getirebileceğin o sessiz limana ulaştın.
               </p>
               <p>
                 Dijital dünya uzun zamandır bir tüketim çılgınlığına dönüştü. Her gün binlerce görüntü, yüzeyse fikir ve sayısız içerik akıp gidiyor önümüzden. Peki, bunlardan kaçı gerçekten sende bir iz bırakıyor? Kaçı senin ruhuna dokunuyor veya senin dünyanı yansıtıyor? İşte bu platform, tam olarak bu sorulara bir yanıt vermek için tasarlandı. Pinterest’in o sonsuz ilham veren akışıyla Letterboxd’ın o tutkulu arşivleme kültürünü bir araya getirdik çünkü biliyoruz ki; her insanın içinde bir küratör yatar.
               </p>
-              <p className="font-bold">
+              <p className="font-bold text-sm sm:text-base lg:text-base text-[#151a2d]">
                 Kitap kulübüne hoş geldin..
               </p>
             </div>

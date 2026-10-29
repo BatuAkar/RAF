@@ -858,8 +858,10 @@ export default function ProfilePage() {
             <div className="absolute left-[-220px] sm:left-[-280px] lg:left-[-330px] top-[-35px] sm:top-[-45px] z-10 shadow-2xl rounded-none border border-[#070825]/20 select-none pointer-events-none bg-[#070825]">
               <svg width="310" height="190" viewBox="0 0 272 167" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-[230px] sm:w-[280px] lg:w-[310px] h-auto">
                 <rect width="271.34" height="167" fill="#070825"/>
-                {/* RAF Başlığı */}
-                <path d="M41 112.5V17.125H66.75C72.4167 17.125 77.375 17.9583 81.625 19.625C85.875 21.2083 89.1667 23.7917 91.5 27.375C93.9167 30.9583 95.125 35.7917 95.125 41.875C95.125 48.4583 93.25 53.5417 89.5 57.125C85.75 60.7083 80.8333 63.2083 74.75 64.625C76.9167 65.375 78.9167 66.4167 80.75 67.75C82.6667 69 84.2083 70.5833 85.375 72.5C86.7917 74.75 88 77.5833 89 81C90 84.4167 90.875 88.0417 91.625 91.875C92.375 95.7083 93.0833 99.4583 93.75 103.125C94.4167 106.708 95.0833 109.833 95.75 112.5H83.5C82.8333 108.833 82.2083 105.167 81.625 101.5C81.125 97.8333 80.5417 94.2083 79.875 90.625C79.375 87.4583 78.4583 84.2083 77.125 80.875C75.7917 77.4583 73.9167 74.5833 71.5 72.25C69.1667 69.9167 66.0833 68.75 62.25 68.75H52.125V112.5H41ZM52.125 58.625H62.5C66.3333 58.625 69.8333 58.125 73 57.125C76.25 56.125 78.8333 54.4167 80.75 52C82.75 49.5833 83.75 46.2083 83.75 41.875C83.75 38.0417 82.875 35.0833 81.125 33C79.375 30.8333 77.0833 29.3333 74.25 28.5C71.4167 27.6667 68.3333 27.25 65 27.25H52.125V58.625ZM103.375 112.5L126.375 15.375H137.625L160.625 112.5H149.375L143.375 84.625H120.625L114.625 112.5H103.375ZM122.75 74.75H141.25L132 32.125L122.75 74.75ZM169 112.5V17.125H223.75V27.125H180.125V59.25H217.875V69.25H180.125V112.5H169Z" fill="#FAF8F6"/>
+                {/* RAF Başlığı (Kosugi Fontu) */}
+                <text x="136" y="110" textAnchor="middle" className="font-kosugi fill-[#FAF8F6] tracking-wider" style={{ fontSize: "105px" }}>
+                  RAF
+                </text>
                 {/* Crafty Girls Fontlu "kitap kulübü" Alt Yazısı */}
                 <text x="136" y="152" textAnchor="middle" className="font-crafty fill-white tracking-widest" style={{ fontSize: "26px" }}>
                   kitap kulübü
@@ -896,7 +898,7 @@ export default function ProfilePage() {
                 <img src={profile.avatar_url} alt={profile.full_name} className="w-full h-full object-cover rounded-full" />
               ) : (
                 <div className="flex flex-col items-center justify-center">
-                  <span className="font-logo text-4xl sm:text-5xl md:text-6xl tracking-widest leading-none">RAF</span>
+                  <span className="font-kosugi text-4xl sm:text-5xl md:text-6xl tracking-widest leading-none">RAF</span>
                   <span className="font-handwritten text-xs sm:text-sm text-accent-pink mt-1.5 leading-none">küratör</span>
                 </div>
               )}
