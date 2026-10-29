@@ -93,21 +93,21 @@ export default function LandingPage() {
           </div>
  
           {/* Sol Alt: Instagram Kartları */}
-          <div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div className="w-full max-w-lg lg:max-w-xl">
+            <div className="grid grid-cols-3 gap-3.5 sm:gap-5">
               {instagramItems.map((item) => (
                 <div key={item.id} className="flex flex-col items-center">
                   <a
                     href={item.link || "https://www.instagram.com/raf_co.kitap/"}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full aspect-[4/5] overflow-hidden rounded-2xl border border-slate-200 shadow-sm bg-white p-2 hover:-translate-y-1 transition-all duration-300 block cursor-pointer"
+                    className="w-full max-w-[165px] aspect-[4/5] overflow-hidden rounded-xl sm:rounded-2xl border border-slate-200 shadow-sm bg-white p-1.5 sm:p-2 hover:-translate-y-1 transition-all duration-300 block cursor-pointer"
                     title={`Instagram'da Gör: ${item.username || "raf_co.kitap"}`}
                   >
                     <img
                       src={item.image_url}
                       alt={`Instagram Post ${item.id}`}
-                      className="w-full h-full object-cover rounded-xl"
+                      className="w-full h-full object-cover rounded-lg sm:rounded-xl"
                       loading="lazy"
                     />
                   </a>
@@ -115,7 +115,7 @@ export default function LandingPage() {
                     href={item.link || "https://www.instagram.com/raf_co.kitap/"}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-3 flex items-center text-accent-pink font-handwritten text-xl hover:underline cursor-pointer select-none"
+                    className="mt-2 flex items-center text-accent-pink font-handwritten text-sm sm:text-base lg:text-lg hover:underline cursor-pointer select-none text-center"
                   >
                     <span>{item.username || "instagram:@raf_co.kitap"}</span>
                   </a>
