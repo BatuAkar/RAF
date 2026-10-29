@@ -157,7 +157,7 @@ export default function LandingPage() {
 
         {/* Slogan */}
         <div className="pt-16 pb-4 text-center z-10 select-none">
-          <h2 className="font-handwritten text-5xl sm:text-6xl text-accent-pink italic drop-shadow-lg inline-block">
+          <h2 className="font-handwritten text-5xl sm:text-6xl text-[#f0b8c7] italic drop-shadow-lg inline-block">
             #ne okuyorsun?
           </h2>
         </div>
