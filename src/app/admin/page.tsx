@@ -391,16 +391,25 @@ export default function AdminPage() {
         .order("id", { ascending: true }) as any
 
       const DEFAULT_INSTAGRAM = [
-        { id: 1, image_url: "/images/reading1.png", username: "instagram:@RAF&CO.", link: "https://instagram.com" },
-        { id: 2, image_url: "/images/reading2.png", username: "instagram:@RAF&CO.", link: "https://instagram.com" },
-        { id: 3, image_url: "/images/reading3.png", username: "instagram:@RAF&CO.", link: "https://instagram.com" }
+        { id: 1, image_url: "/images/reading1.png", username: "instagram:@raf_co.kitap", link: "https://www.instagram.com/raf_co.kitap/" },
+        { id: 2, image_url: "/images/reading2.png", username: "instagram:@raf_co.kitap", link: "https://www.instagram.com/raf_co.kitap/" },
+        { id: 3, image_url: "/images/reading3.png", username: "instagram:@raf_co.kitap", link: "https://www.instagram.com/raf_co.kitap/" }
       ]
 
       let items = DEFAULT_INSTAGRAM
       if (!error && data && data.length > 0) {
         items = DEFAULT_INSTAGRAM.map(def => {
           const found = data.find((d: any) => d.id === def.id)
-          return found || def
+          if (found) {
+            return {
+              ...def,
+              ...found,
+              image_url: found.image_url || def.image_url,
+              username: found.username || def.username,
+              link: found.link || def.link,
+            }
+          }
+          return def
         })
       } else {
         const local = localStorage.getItem("raf_instagram_items")
@@ -426,9 +435,24 @@ export default function AdminPage() {
     setLoading(true)
 
     const payload = [
-      { id: 1, image_url: instCard1.image_url.trim(), username: instCard1.username.trim(), link: instCard1.link.trim() },
-      { id: 2, image_url: instCard2.image_url.trim(), username: instCard2.username.trim(), link: instCard2.link.trim() },
-      { id: 3, image_url: instCard3.image_url.trim(), username: instCard3.username.trim(), link: instCard3.link.trim() }
+      {
+        id: 1,
+        image_url: instCard1.image_url.trim() || "/images/reading1.png",
+        username: instCard1.username.trim() || "instagram:@raf_co.kitap",
+        link: instCard1.link.trim() || "https://www.instagram.com/raf_co.kitap/"
+      },
+      {
+        id: 2,
+        image_url: instCard2.image_url.trim() || "/images/reading2.png",
+        username: instCard2.username.trim() || "instagram:@raf_co.kitap",
+        link: instCard2.link.trim() || "https://www.instagram.com/raf_co.kitap/"
+      },
+      {
+        id: 3,
+        image_url: instCard3.image_url.trim() || "/images/reading3.png",
+        username: instCard3.username.trim() || "instagram:@raf_co.kitap",
+        link: instCard3.link.trim() || "https://www.instagram.com/raf_co.kitap/"
+      }
     ]
 
     try {
@@ -889,7 +913,7 @@ export default function AdminPage() {
                     value={instCard1.username}
                     onChange={(e) => setInstCard1({ ...instCard1, username: e.target.value })}
                     className="w-full px-3 py-2 border border-slate-200 rounded-2xl outline-none focus:border-accent-pink font-sans text-xs text-slate-600 bg-slate-50/30"
-                    placeholder="instagram:@RAF&CO."
+                    placeholder="instagram:@raf_co.kitap"
                     required
                   />
                 </div>
@@ -901,9 +925,19 @@ export default function AdminPage() {
                     value={instCard1.link}
                     onChange={(e) => setInstCard1({ ...instCard1, link: e.target.value })}
                     className="w-full px-3 py-2 border border-slate-200 rounded-2xl outline-none focus:border-accent-pink font-sans text-xs text-slate-600 bg-slate-50/30"
-                    placeholder="https://instagram.com/..."
+                    placeholder="https://www.instagram.com/raf_co.kitap/"
                     required
                   />
+                  {instCard1.link && (
+                    <a
+                      href={instCard1.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[10px] text-accent-pink hover:underline font-sans flex items-center gap-1 mt-0.5 pl-1"
+                    >
+                      bağlantıyı test et ↗
+                    </a>
+                  )}
                 </div>
 
                 {instCard1.image_url && (
@@ -948,7 +982,7 @@ export default function AdminPage() {
                     value={instCard2.username}
                     onChange={(e) => setInstCard2({ ...instCard2, username: e.target.value })}
                     className="w-full px-3 py-2 border border-slate-200 rounded-2xl outline-none focus:border-accent-pink font-sans text-xs text-slate-600 bg-slate-50/30"
-                    placeholder="instagram:@RAF&CO."
+                    placeholder="instagram:@raf_co.kitap"
                     required
                   />
                 </div>
@@ -960,9 +994,19 @@ export default function AdminPage() {
                     value={instCard2.link}
                     onChange={(e) => setInstCard2({ ...instCard2, link: e.target.value })}
                     className="w-full px-3 py-2 border border-slate-200 rounded-2xl outline-none focus:border-accent-pink font-sans text-xs text-slate-600 bg-slate-50/30"
-                    placeholder="https://instagram.com/..."
+                    placeholder="https://www.instagram.com/raf_co.kitap/"
                     required
                   />
+                  {instCard2.link && (
+                    <a
+                      href={instCard2.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[10px] text-accent-pink hover:underline font-sans flex items-center gap-1 mt-0.5 pl-1"
+                    >
+                      bağlantıyı test et ↗
+                    </a>
+                  )}
                 </div>
 
                 {instCard2.image_url && (
@@ -1007,7 +1051,7 @@ export default function AdminPage() {
                     value={instCard3.username}
                     onChange={(e) => setInstCard3({ ...instCard3, username: e.target.value })}
                     className="w-full px-3 py-2 border border-slate-200 rounded-2xl outline-none focus:border-accent-pink font-sans text-xs text-slate-600 bg-slate-50/30"
-                    placeholder="instagram:@RAF&CO."
+                    placeholder="instagram:@raf_co.kitap"
                     required
                   />
                 </div>
@@ -1019,9 +1063,19 @@ export default function AdminPage() {
                     value={instCard3.link}
                     onChange={(e) => setInstCard3({ ...instCard3, link: e.target.value })}
                     className="w-full px-3 py-2 border border-slate-200 rounded-2xl outline-none focus:border-accent-pink font-sans text-xs text-slate-600 bg-slate-50/30"
-                    placeholder="https://instagram.com/..."
+                    placeholder="https://www.instagram.com/raf_co.kitap/"
                     required
                   />
+                  {instCard3.link && (
+                    <a
+                      href={instCard3.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[10px] text-accent-pink hover:underline font-sans flex items-center gap-1 mt-0.5 pl-1"
+                    >
+                      bağlantıyı test et ↗
+                    </a>
+                  )}
                 </div>
 
                 {instCard3.image_url && (

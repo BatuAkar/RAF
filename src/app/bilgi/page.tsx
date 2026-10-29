@@ -55,6 +55,14 @@ export default function BilgiPage() {
         >
           raf.co.kitap@gmail.com
         </a>
+        <a 
+          href="https://www.instagram.com/raf_co.kitap/" 
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-serif text-sm text-accent-pink hover:underline transition-colors mt-0.5"
+        >
+          instagram: @raf_co.kitap
+        </a>
       </div>
 
       {/* Alt Sınır: Koyu Zemin Üzeri BEYAZ Şerit (3 Satırlı, Crafty Girls fontuyla ve TAM BEYAZ) */}

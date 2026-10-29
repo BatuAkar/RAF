@@ -9,9 +9,9 @@ export default function LandingPage() {
   const [instagramItems, setInstagramItems] = useState<any[]>([])
 
   const DEFAULT_INSTAGRAM = [
-    { id: 1, image_url: "/images/reading1.png", username: "instagram:@RAF&CO.", link: "https://instagram.com" },
-    { id: 2, image_url: "/images/reading2.png", username: "instagram:@RAF&CO.", link: "https://instagram.com" },
-    { id: 3, image_url: "/images/reading3.png", username: "instagram:@RAF&CO.", link: "https://instagram.com" }
+    { id: 1, image_url: "/images/reading1.png", username: "instagram:@raf_co.kitap", link: "https://www.instagram.com/raf_co.kitap/" },
+    { id: 2, image_url: "/images/reading2.png", username: "instagram:@raf_co.kitap", link: "https://www.instagram.com/raf_co.kitap/" },
+    { id: 3, image_url: "/images/reading3.png", username: "instagram:@raf_co.kitap", link: "https://www.instagram.com/raf_co.kitap/" }
   ]
 
   // Şeritler için tekrarlayan metinler
@@ -97,22 +97,28 @@ export default function LandingPage() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               {instagramItems.map((item) => (
                 <div key={item.id} className="flex flex-col items-center">
-                  <div className="w-full aspect-[4/5] overflow-hidden rounded-2xl border border-slate-200 shadow-sm bg-white p-2 hover:-translate-y-1 transition-all duration-300">
+                  <a
+                    href={item.link || "https://www.instagram.com/raf_co.kitap/"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full aspect-[4/5] overflow-hidden rounded-2xl border border-slate-200 shadow-sm bg-white p-2 hover:-translate-y-1 transition-all duration-300 block cursor-pointer"
+                    title={`Instagram'da Gör: ${item.username || "raf_co.kitap"}`}
+                  >
                     <img
                       src={item.image_url}
                       alt={`Instagram Post ${item.id}`}
                       className="w-full h-full object-cover rounded-xl"
                       loading="lazy"
                     />
-                  </div>
+                  </a>
                   <a
-                    href={item.link}
+                    href={item.link || "https://www.instagram.com/raf_co.kitap/"}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-3 flex items-center gap-1.5 text-accent-pink font-handwritten text-xl hover:underline cursor-pointer select-none"
                   >
                     <span className="text-base">📸</span>
-                    <span>{item.username}</span>
+                    <span>{item.username || "instagram:@raf_co.kitap"}</span>
                   </a>
                 </div>
               ))}
